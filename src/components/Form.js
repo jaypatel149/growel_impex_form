@@ -30,56 +30,101 @@ const Form = () => {
     return `${hours}:${minutes}:${second}`;
   };
 
-
-
   const onSubmit = (data) => {
     console.log(data);
 
-
-    const sizeValues = [];
-    const cutQtyValues = [];
+    const formDataList = [];
 
     for (let i = 0; i < 9; i++) {
       const size = data[`size${i}`]?.trim();
       const cutQty = data[`cutQty${i}`]?.trim();
 
-      if (size) {
-        sizeValues.push(size);
-      }
+      if (size && cutQty) {
+        const formData = {
+          date: getCurrentDate(),
+          time: getCurrentTime(),
+          giestyle: data.giestyle?.trim(),
+          buyer: data.buyer?.trim(),
+          color: data.color?.trim(),
+          buyerStyle: data.buyerStyle?.trim(),
+          size,
+          cutQty,
+          notes: data.notes?.trim(),
+        };
 
-      if (cutQty) {
-        cutQtyValues.push(cutQty);
+        formDataList.push(formData);
       }
     }
 
-    const formData = {
-      size: sizeValues.join(", "),
-      cutQty: cutQtyValues.join(", "),
-      giestyle: data.giestyle?.trim(),
-      buyer: data.buyer?.trim(),
-      color: data.color?.trim(),
-      buyerStyle: data.buyerStyle?.trim(),
-      notes: data.notes?.trim(),
-      date: getCurrentDate(),
-      time: getCurrentTime()
+    if (formDataList.length > 0) {
+      axios
+        .post(
+          "https://sheet.best/api/sheets/485e5d20-683a-4478-a177-5b4ae1e0747a",
+          formDataList
+        )
+        .then((response) => {
+          console.log(response.data);
+          toast.success("Form submission Successful!");
+        })
+        .catch((error) => {
+          console.error(error);
+          toast.error("Form submission failed. Please try again later.");
+        });
     }
-
-    axios
-      .post(
-        "https://sheet.best/api/sheets/485e5d20-683a-4478-a177-5b4ae1e0747a",
-        formData
-      )
-      .then((response) => {
-        console.log(response.data);
-        toast.success("Form submition Successfully!");
-      })
-      .catch((error) => {
-        console.error(error);
-        toast.error("Form submission failed. Please try again later.");
-      });
 
     reset();
   };
+
+
+
+  // const onSubmit = (data) => {
+  //   console.log(data);
+
+
+  //   const sizeValues = [];
+  //   const cutQtyValues = [];
+
+  //   for (let i = 0; i < 9; i++) {
+  //     const size = data[`size${i}`]?.trim();
+  //     const cutQty = data[`cutQty${i}`]?.trim();
+
+  //     if (size) {
+  //       sizeValues.push(size);
+  //     }
+
+  //     if (cutQty) {
+  //       cutQtyValues.push(cutQty);
+  //     }
+  //   }
+
+  //   const formData = {
+  //     size: sizeValues.join(", "),
+  //     cutQty: cutQtyValues.join(", "),
+  //     giestyle: data.giestyle?.trim(),
+  //     buyer: data.buyer?.trim(),
+  //     color: data.color?.trim(),
+  //     buyerStyle: data.buyerStyle?.trim(),
+  //     notes: data.notes?.trim(),
+  //     date: getCurrentDate(),
+  //     time: getCurrentTime()
+  //   }
+
+  //   axios
+  //     .post(
+  //       "https://sheet.best/api/sheets/485e5d20-683a-4478-a177-5b4ae1e0747a",
+  //       formData
+  //     )
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       toast.success("Form submition Successfully!");
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //       toast.error("Form submission failed. Please try again later.");
+  //     });
+
+  //   reset();
+  // };
 
   
 
