@@ -83,11 +83,12 @@ const Form = () => {
         className="d-flex align-items-center justify-content-center vh-100"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="card bg-dark text-white fw-bold p-5">
-        <div className="d-flex justify-content-between align-items-center mb-5 logo">
+        <div className="card bg-dark text-white fw-bold">
+        <div className="d-flex justify-content-between align-items-center  logo">
           <img src="/assests/logo1.png" alt="logo"/>
           <h1>Growel Impex</h1>
         </div>
+          <h2 style={{color:"red",marginBottom:"2rem"}} className="text-center">Cutting Form</h2>
           <div className="row">
             <div className="col-md-6">
               <div className="mb-3">
@@ -235,7 +236,7 @@ const Form = () => {
             <div className="col-md-12">
               <button
                 type="submit"
-                className="btn btn-secondary w-100 fw-bold fs-5"
+                className="btn btn-secondary w-100 fw-bold fs-5 mb-5"
               >
                 Submit
               </button>
